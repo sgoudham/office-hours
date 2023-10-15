@@ -1,0 +1,75 @@
+name: Tag & Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag Name (E.g. v1.0.0)"
+        required: true
+
+env:
+  BOT_NAME: "github-actions[bot]"
+  BOT_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+
+jobs:
+  prep-release:
+    name: Prepare Release
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    outputs:
+      commit_hash: ${{ steps.commit-and-push.outputs.commit_hash }}
+      release_body: ${{ steps.git-cliff.outputs.content }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get Release Body
+        uses: orhun/git-cliff-action@main
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: "-vv --unreleased --tag ${{ github.event.inputs.tag }} --strip header"
+      - name: List Unreleased Changes
+        run: |
+          echo "${{ steps.git-cliff.outputs.content }}" >> $GITHUB_STEP_SUMMARY
+      - name: Update Changelog
+        uses: orhun/git-cliff-action@main
+        with:
+          config: cliff.toml
+          args: "-vv --tag ${{ github.event.inputs.tag }}"
+        env:
+          OUTPUT: "CHANGELOG.md"
+      - name: Push Changes
+        id: commit-and-push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: "CHANGELOG.md"
+          commit_message: "chore(release): prep for ${{ github.event.inputs.tag }}"
+          commit_author: "${{ env.BOT_NAME }} <${{ env.BOT_EMAIL }}>"
+
+  release:
+    name: Release
+    runs-on: ubuntu-22.04
+    needs: [ "prep-release" ]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prep-release.outputs.commit_hash }}
+      - name: Create & Push Tag
+        run: |
+          git config --global user.name "${{ env.BOT_NAME }}"
+          git config --global user.email "${{ env.BOT_EMAIL }}"
+          git tag -a ${{ github.event.inputs.tag }} -m "${{ github.event.inputs.tag }}"
+          git push origin ${{ github.event.inputs.tag }}
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ github.event.inputs.tag }}"
+          body: "${{ needs.prep-release.outputs.release_body }}"
+          draft: true
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json

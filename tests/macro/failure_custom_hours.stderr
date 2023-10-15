@@ -1,0 +1,16 @@
+error[E0308]: mismatched types
+ --> tests/macro/failure_custom_hours.rs:4:19
+  |
+4 |       office_hours!(10, Clock::FourPm, {
+  |       -             ^^ expected `Clock`, found integer
+  |  _____|
+  | |
+5 | |         println!("I love my macro hours from 10:00 to 16:00")
+6 | |     });
+  | |______- arguments to this function are incorrect
+  |
+note: associated function defined here
+ --> src/lib.rs
+  |
+  |     pub fn new(start: Clock, finish: Clock) -> Self {
+  |            ^^^

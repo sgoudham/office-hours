@@ -1,0 +1,22 @@
+[package]
+name = "office-hours"
+version = "1.0.0"
+edition = "2021"
+authors = ["Goudham Suresh <sgoudham@gmail.com>"]
+description = "Simple library to only execute code within office hours"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/sgoudham/office-hours"
+keywords = ["office", "work", "time", "fun", "datetime"]
+include = ["/src", "/README.md", "/LICENSE"]
+
+[lib]
+name = "office_hours"
+path = "src/lib.rs"
+
+[dependencies]
+chrono = "0.4.31"
+thiserror = "1.0.49"
+
+[dev-dependencies]
+trybuild = "1.0.85"
