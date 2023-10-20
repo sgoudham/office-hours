@@ -2,8 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-
-## [Unreleased]
+## [v1.1.0](https://github.com/sgoudham/office-hours/releases/tag/v1.1.0) - 2023-10-20
 
 
 ### Features
