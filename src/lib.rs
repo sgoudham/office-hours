@@ -381,13 +381,10 @@ impl Iterator for OfficeHoursIter {
     }
 }
 
-impl IntoIterator for OfficeHours {
+impl IntoIterator for &OfficeHours {
     type Item = NaiveTime;
     type IntoIter = OfficeHoursIter;
-    fn into_iter(self) -> OfficeHoursIter {
-        OfficeHoursIter {
-            start: self.start,
-            finish: self.finish,
-        }
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
     }
 }
