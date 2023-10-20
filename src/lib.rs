@@ -258,7 +258,7 @@ impl OfficeHours {
     /// }
     /// ```
     #[must_use]
-    pub fn iter(&self) -> OfficeHoursIter {
+    pub const fn iter(&self) -> OfficeHoursIter {
         OfficeHoursIter {
             start: self.start,
             finish: self.finish,
