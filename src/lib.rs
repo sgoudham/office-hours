@@ -173,7 +173,7 @@ pub trait FromNaiveTime {
 
 impl FromNaiveTime for NaiveTime {
     fn from_slice_u32(slice: &[u32]) -> Result<NaiveTime, OfficeHoursError> {
-        let time = NaiveTime::from_hms_milli_opt(
+        let time = Self::from_hms_milli_opt(
             *slice.first().unwrap_or(&0),
             *slice.get(1).unwrap_or(&0),
             *slice.get(2).unwrap_or(&0),
@@ -187,11 +187,11 @@ impl FromNaiveTime for NaiveTime {
         // -- SAFETY --
         // Make sure all variants of the [Clock] enum continues
         // to hold hours of the day that valid (0 -> 23)
-        unsafe { NaiveTime::from_time_u32(hour as u32).unwrap_unchecked() }
+        unsafe { Self::from_time_u32(hour as u32).unwrap_unchecked() }
     }
 
     fn from_time_u32(hour: u32) -> Option<NaiveTime> {
-        NaiveTime::from_hms_opt(hour, 0, 0)
+        Self::from_hms_opt(hour, 0, 0)
     }
 }
 
@@ -318,7 +318,7 @@ impl OfficeHours {
     /// ```
     #[must_use]
     pub fn now(&self) -> bool {
-        OfficeHours::now_from_time(&self.start, &self.finish, &Local::now().time())
+        Self::now_from_time(&self.start, &self.finish, &Local::now().time())
     }
 
     #[doc(hidden)]
@@ -353,7 +353,7 @@ impl<'a> TryFrom<(&'a [u32], &'a [u32])> for OfficeHours {
     /// ```
     fn try_from(office_hours: (&'a [u32], &'a [u32])) -> Result<Self, Self::Error> {
         let (start, finish) = office_hours;
-        Ok(OfficeHours {
+        Ok(Self {
             start: NaiveTime::from_slice_u32(start)?,
             finish: NaiveTime::from_slice_u32(finish)?,
         })
