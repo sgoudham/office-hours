@@ -26,8 +26,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
       - name: Install Rust
         uses: dtolnay/rust-toolchain@master
         with:
@@ -47,8 +45,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
       - name: Install Rust
         uses: dtolnay/rust-toolchain@master
         with:
