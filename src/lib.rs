@@ -53,7 +53,7 @@
 //!     println!("Hour: {:?}", hour);
 //! }
 //! ```
-#![warn(clippy::all, clippy::pedantic)]
+#![warn(clippy::all, clippy::pedantic, clippy::nursery)]
 use std::cmp::Ordering;
 
 use chrono::{Duration, Local, NaiveTime, Timelike};
