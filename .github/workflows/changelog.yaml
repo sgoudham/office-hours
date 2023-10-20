@@ -16,7 +16,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
       - uses: orhun/git-cliff-action@main
         id: git-cliff
@@ -37,7 +36,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
       - uses: orhun/git-cliff-action@main
         id: git-cliff
