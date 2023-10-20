@@ -58,12 +58,16 @@ use std::cmp::Ordering;
 
 use chrono::{Duration, Local, NaiveTime, Timelike};
 
+use thiserror::Error;
 use OfficeHoursError::InvalidTimeSlice;
 
-use crate::error::OfficeHoursError;
-
-mod error;
 mod r#macro;
+
+#[derive(Error, Debug)]
+pub enum OfficeHoursError<'a> {
+    #[error("Could not convert `{0:?}` to chrono::NaiveTime")]
+    InvalidTimeSlice(&'a [u32]),
+}
 
 /// Simple enum to store all the valid hours in a day.
 pub enum Clock {
