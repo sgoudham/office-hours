@@ -53,6 +53,7 @@
 //!     println!("Hour: {:?}", hour);
 //! }
 //! ```
+#![warn(clippy::all, clippy::pedantic)]
 use std::cmp::Ordering;
 
 use chrono::{Duration, Local, NaiveTime, Timelike};
@@ -92,9 +93,9 @@ pub enum Clock {
     ElevenPm = 23,
 }
 
-/// Trait to implement helper functions in the style of [From].
+/// Trait to implement helper functions in the style of [`From`].
 pub trait FromNaiveTime {
-    /// Makes a new [NaiveTime out of a **&[u32]** slice.
+    /// Makes a new [`NaiveTime`] out of a `&[u32]` slice.
     ///
     /// The slice supports a maximum length of 4 parts: `hour`,
     /// `minute`, `second`, and `millisecond`.
@@ -106,7 +107,7 @@ pub trait FromNaiveTime {
     ///
     /// # Errors
     ///
-    /// Returns [Err] if an invalid hour, minute, second,
+    /// Returns [`Err`] if an invalid hour, minute, second,
     /// and/or millisecond.
     ///
     /// # Examples
@@ -128,10 +129,10 @@ pub trait FromNaiveTime {
     /// );
     /// ```
     ///
-    /// See [NaiveTime::from_hms_milli_opt] for further information.
+    /// See [`NaiveTime::from_hms_milli_opt`] for further information.
     fn from_slice_u32(slice: &[u32]) -> Result<NaiveTime, OfficeHoursError>;
 
-    /// Makes a new [NaiveTime] out of a [Clock].
+    /// Makes a new [`NaiveTime`] out of a [`Clock`].
     ///
     /// # Examples
     ///
@@ -146,11 +147,11 @@ pub trait FromNaiveTime {
     /// ```
     fn from_time(time: Clock) -> NaiveTime;
 
-    /// Makes a new [NaiveTime] from the hour given as a [u32].
+    /// Makes a new [`NaiveTime`] from the hour given as a [`u32`].
     ///
     /// # Errors
     ///
-    /// Returns [None] when given an invalid hour.
+    /// Returns [`None`] when given an invalid hour.
     ///
     /// # Examples
     ///
@@ -220,7 +221,7 @@ impl Default for OfficeHours {
 }
 
 impl OfficeHours {
-    /// Makes a new [OfficeHours] from the starting and finishing time.
+    /// Makes a new [`OfficeHours`] from the starting and finishing time.
     ///
     /// # Examples
     ///
@@ -238,7 +239,7 @@ impl OfficeHours {
 
     /// Returns an iterator over the office hours.
     ///
-    /// The iterator yields all [NaiveTime]'s from
+    /// The iterator yields all [`NaiveTime`] instances from
     /// the starting hour to finishing hour.
     ///
     /// # Examples
@@ -258,7 +259,7 @@ impl OfficeHours {
         }
     }
 
-    /// Collect the contents of [Self::hours_iter] into a [Vec<u32>].
+    /// Collect the contents of [`Self::hours_iter`] into a [`Vec<u32>`].
     ///
     /// # Examples
     ///
@@ -278,7 +279,7 @@ impl OfficeHours {
     ///
     /// The iterator yields all hours from
     /// the starting hour to finishing hour in its
-    /// raw [u32] form.
+    /// raw [`u32`] form.
     ///
     /// # Examples
     ///
@@ -350,7 +351,7 @@ impl<'a> TryFrom<(&'a [u32], &'a [u32])> for OfficeHours {
     }
 }
 
-/// Iterator over [OfficeHours] that returns the hourly [NaiveTime].
+/// Iterator over [`OfficeHours`] that returns the hourly [`NaiveTime`].
 pub struct OfficeHoursIter {
     start: NaiveTime,
     finish: NaiveTime,
