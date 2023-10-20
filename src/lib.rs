@@ -230,6 +230,7 @@ impl OfficeHours {
     /// let morning = OfficeHours::new(Clock::NineAm, Clock::TwelvePm);
     /// let afternoon = OfficeHours::new(Clock::TwelvePm, Clock::FivePm);
     /// ```
+    #[must_use]
     pub fn new(start: Clock, finish: Clock) -> Self {
         Self {
             start: NaiveTime::from_time(start),
@@ -252,6 +253,7 @@ impl OfficeHours {
     ///     println!("Hours: {:?}", time);
     /// }
     /// ```
+    #[must_use]
     pub fn iter(&self) -> OfficeHoursIter {
         OfficeHoursIter {
             start: self.start,
@@ -271,6 +273,7 @@ impl OfficeHours {
     /// let night_shift = OfficeHours::new(Clock::TenPm, Clock::FiveAm);
     /// assert_eq!(night_shift.hours(), vec![22, 23, 0, 1, 2, 3, 4]);
     /// ```
+    #[must_use]
     pub fn hours(&self) -> Vec<u32> {
         self.hours_iter().collect()
     }
@@ -309,11 +312,13 @@ impl OfficeHours {
     ///     println!("Phew, still on break!")
     /// }
     /// ```
+    #[must_use]
     pub fn now(&self) -> bool {
         OfficeHours::now_from_time(&self.start, &self.finish, &Local::now().time())
     }
 
     #[doc(hidden)]
+    #[must_use]
     pub fn now_from_time(start: &NaiveTime, finish: &NaiveTime, now: &NaiveTime) -> bool {
         match start.cmp(finish) {
             Ordering::Equal => start == now,
