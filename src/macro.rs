@@ -1,4 +1,4 @@
-/// Creates an [OfficeHours] that takes in a list of statements to execute
+/// Creates an [`OfficeHours`] that takes in a list of statements to execute
 /// when the current time is between office hours.
 ///
 /// - Only execute code between the default hours of 9am and 5pm.
@@ -16,7 +16,7 @@
 ///     println!("Between 5pm and 10pm")
 /// });
 /// ```
-/// [OfficeHours]: crate::OfficeHours
+/// [`OfficeHours`]: crate::OfficeHours
 #[macro_export]
 macro_rules! office_hours {
     ({ $($code:stmt)* }) => {{
